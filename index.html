@@ -12,47 +12,35 @@
     <div class="app_container">
       <div class="app_header">
         <h1>Todo</h1>
-        <img src="./images/icon-moon.svg" alt="moon_icon" class="moon" />
-        <img src="./images/icon-sun.svg" alt="sun_icon" class="sun hidden_icon" />
+        <div class="theme_toogler">
+          <img src="./images/icon-moon.svg" alt="moon_icon" class="theme_toogler moon" />
+          <img src="./images/icon-sun.svg" alt="sun_icon" class="theme_toogler sun hidden_icon" />
+        </div>
       </div>
 
       <div class="app">
         <div role="app_input" class="card">
           <div class="circle"></div>
-          <input type="text" placeholder="Create a new todo..." />
+          <form id="sub_todo" action="submit">
+            <input aria-label="todo app input" type="text" id="todo_input" name="todo_input" placeholder="Create a new todo..." />
+          </form>
         </div>
-        <div class="card">
-          <!-- to do item go here -->
-          <!-- here a dummy for test -->
-          <div class="todo_item">
-            <div class="circle"></div>
-            <p>Dummy todo</p>
-            <img src="./images/icon-cross.svg" alt="x_mark" />
+        <div id="todos_card" class="card">
+          <div id="todos_list">
+            <!-- to do item go here -->
+            <!-- here is a dummy for test -->
+            <!-- <div class="todo_item">
+              <div class="circle todo-circle"></div>
+                <p>Dummy todo</p>
+                <img src="./images/icon-cross.svg" alt="x_mark" class="todo_item_x" />
+              </div>
+              <hr /> -->
+            <!-- to do item go here -->
           </div>
-          <hr />
-          <div class="todo_item">
-            <div class="circle"></div>
-            <p>Dummy todo</p>
-            <img src="./images/icon-cross.svg" alt="x_mark" />
-          </div>
-          <hr />
-          <div class="todo_item">
-            <div class="circle"></div>
-            <p>Dummy todo</p>
-            <img src="./images/icon-cross.svg" alt="x_mark" />
-          </div>
-          <hr />
-          <div class="todo_item">
-            <div class="circle"></div>
-            <p>Dummy todo</p>
-            <img src="./images/icon-cross.svg" alt="x_mark" />
-          </div>
-          <hr />
-          <!-- to do item go here -->
           <div class="card_ctrl">
             <p class="card_item_left">items left</p>
             <p><strong id="all">All</strong> <strong id="active">Active</strong> <strong id="completed">Completed</strong></p>
-            Clear Completed
+            <p>Clear Completed</p>
           </div>
         </div>
       </div>
@@ -65,4 +53,6 @@
       </p>
     </footer>
   </body>
+  <script src="app.js"></script>
+  <script src="theme.js"></script>
 </html>
