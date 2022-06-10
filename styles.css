@@ -1,0 +1,143 @@
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;700&display=swap');
+/* themes */
+:root {
+  --body-bg: white;
+  --card-bg: white;
+  --bg-url: url('./images/bg-desktop-light.jpg');
+  --card-bd-col: #bdbdbd;
+  --text-color: white;
+}
+.dark_mode {
+  --body-bg: #252525;
+  --card-bg: #555;
+  --card-bd-col: #212121;
+  --text-color: #f5f5f5;
+}
+/* general */
+* {
+  margin: 0;
+  box-sizing: border-box;
+  font-family: 'Josefin Sans', sans-serif;
+}
+
+body,
+.app,
+.app_container,
+.app_header,
+.card,
+.card_ctrl,
+.todo_item {
+  display: flex;
+}
+
+body {
+  width: 100vw;
+  height: 100vh;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 6.5em;
+  padding-bottom: 1em;
+  color: var(--text-color);
+  background-color: var(--body-bg);
+  background-image: var(--bg-url);
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+/* app */
+.app_container {
+  width: 37%;
+  flex-direction: column;
+  gap: 4em;
+}
+
+.app_container h1 {
+  font-size: 2.7em;
+  text-align: left;
+  text-transform: uppercase;
+  letter-spacing: 0.3em;
+}
+
+.app_header {
+  justify-content: space-between;
+}
+
+.app {
+  flex-direction: column;
+  gap: 1.7em;
+}
+
+.app_header img {
+  width: 2.7em;
+  height: auto;
+}
+
+.hidden_icon {
+  display: none;
+}
+
+/* reusable card */
+.card {
+  gap: 2em;
+  align-items: center;
+  background-color: white;
+  padding: 1.5em;
+  border-radius: 0.4em;
+}
+.card:nth-of-type(2) {
+  gap: 0em;
+  padding: 0;
+  color: hsl(234, 11%, 52%);
+  flex-direction: column;
+  justify-content: flex-end;
+  min-height: 8em;
+  box-shadow: 1px 13px 25px -9px rgba(0, 0, 0, 0.55);
+}
+
+.card input {
+  width: 80%;
+  border: 0px;
+  font-size: 1.5em;
+}
+.card hr {
+  width: 100%;
+}
+
+.card input:focus {
+  outline: none;
+}
+
+.todo_item {
+  width: 100%;
+  padding: 1.5em;
+  align-items: center;
+  justify-content: space-between;
+}
+.todo_item p {
+  width: 82%;
+  font-size: 1.5em;
+}
+
+.card_ctrl {
+  width: 100%;
+  padding: 1.5em;
+  color: hsl(234, 11%, 52%);
+  justify-content: space-between;
+}
+
+.card_ctrl p strong {
+  padding-left: 1em;
+}
+
+/* custom "checkbox" */
+.circle {
+  width: 1.5vw;
+  height: 1.5vw;
+  border-radius: 50px;
+  border: 1px solid hsl(233, 11%, 84%);
+}
+/* footer */
+footer {
+  color: hsl(234, 11%, 52%);
+  font-weight: bold;
+}
