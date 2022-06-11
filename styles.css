@@ -118,9 +118,6 @@ body {
   outline: none;
 }
 
-.card hr {
-  width: 100%;
-}
 /* todo */
 #todos_list {
   width: 100%;
@@ -131,6 +128,14 @@ body {
   padding: 1.5em;
   align-items: center;
   justify-content: space-between;
+  position: relative;
+}
+
+.todo_item hr {
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  left: 0;
 }
 
 .todo_item_x:hover {
