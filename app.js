@@ -3,10 +3,10 @@ const input = document.getElementById('todo_input')
 const todo_form = document.getElementById('sub_todo')
 const todos = document.getElementById('todos_list')
 const card_ctrl = document.querySelector('.card_ctrl')
-
-todo_form.addEventListener('submit', submit_todo)
-
+const prefix = 'todos'
 //should we regex the input? of course, but later we should even prevent long strings
+//submit
+todo_form.addEventListener('submit', submit_todo)
 function submit_todo(e) {
   const new_todo = input.value
   e.preventDefault()
@@ -14,6 +14,7 @@ function submit_todo(e) {
   todo_form.reset()
 }
 
+//print after submit
 function print_todo(task) {
   const randombId = Math.random().toString(36)
   const new_todo_object = JSON.stringify({ id: randombId, task, active: true })
@@ -27,11 +28,15 @@ function print_todo(task) {
         `
     todos.innerHTML += new_todo_html
     save_todo(new_todo_object, randombId)
+    //getting ready to be delete
+    delete_todo()
+    active_todo()
   } else {
     alert('please enter something')
   }
 }
 
+//save into local storage
 function save_todo(task, id) {
   const old_todos = localStorage.getItem('todos')
   if (!old_todos) {
@@ -39,14 +44,11 @@ function save_todo(task, id) {
   } else {
     localStorage.setItem(`todos${id}`, task)
     const all_todos = JSON.parse(localStorage.getItem('todo'))
-    console.log(all_todos)
   }
 }
 
-//load the todos
-function get_totos() {
-  const prefix = 'todos'
-
+//load the todos from localstorage
+function get_todos() {
   for (key in localStorage) {
     if (key.startsWith(prefix)) {
       const todo = JSON.parse(localStorage.getItem(key))
@@ -55,15 +57,119 @@ function get_totos() {
   }
 }
 
+//display todos once loaded from local storage
 function display_todos(tasks) {
-  todos.innerHTML += `<div class="todo_item">
-  <div class="circle todo-circle"></div>
-  ${tasks.active ? `<p id=${tasks.id}>${tasks.task}</p>` : `<p id=${tasks.id}><del>${tasks.task}</del></p>`}
-  <img src="./images/icon-cross.svg" alt="x_mark" class="todo_item_x" />
-  <hr />
-  </div>
-  `
+  if (tasks.active) {
+    todos.innerHTML += `<div class="todo_item">
+<div class='circle todo-circle'  id=circle${tasks.id}>  
+</div>
+<p id=${tasks.id}>${tasks.task}</p>
+<img src="./images/icon-cross.svg" alt="x_mark" class="todo_item_x" />
+<hr />
+</div>
+`
+  } else {
+    todos.innerHTML += `<div class="todo_item">
+      <div class= 'circle circle_completed todo-circle' id=circle${tasks.id}>
+        <img src='./images/icon-check.svg' alt='icon-check' class='check_mark'/>
+      </div>
+      <p id=${tasks.id} class='todo_completed_text'>${tasks.task}</p>
+      <img src="./images/icon-cross.svg" alt="x_mark" class="todo_item_x" />
+      <hr />
+      </div>
+      `
+  }
+  // todos.innerHTML +=
+  active_todo()
+  delete_todo()
+}
+
+//delete
+function delete_todo() {
+  const deleteBtn = document.querySelectorAll('.todo_item_x')
+  deleteBtn.forEach((button) => {
+    //get the id of the todo the user wants to delete
+    button.addEventListener('click', (e) => {
+      const todo_html = button.closest('div')
+      const id_todo = button.previousElementSibling.getAttribute('id')
+      const item_to_delete = prefix + id_todo
+      localStorage.removeItem(item_to_delete)
+      delete_todo_html(todo_html)
+    })
+  })
+}
+
+//remove from html
+function delete_todo_html(todo_html) {
+  todo_html.remove()
+}
+
+//toogle active todo
+function active_todo() {
+  const check_circles = document.querySelectorAll('.todo-circle')
+
+  check_circles.forEach((check_circle) => {
+    check_circle.addEventListener('click', (e) => {
+      //select element in dom
+      const selected_Todo_id = check_circle.nextElementSibling.getAttribute('id')
+      const selected_Todo_task = check_circle.nextElementSibling.innerHTML
+
+      //check if it exist in local storage
+      const todo_to_find = localStorage.getItem(prefix + selected_Todo_id)
+      if (todo_to_find) {
+        is_active(todo_to_find)
+      } else {
+        console.log('not found')
+      }
+    })
+  })
+}
+
+//check todo state and proced accordingly
+function is_active(todo_to_check) {
+  const todo_state = JSON.parse(todo_to_check).active
+  if (todo_state === true) {
+    set_completed(todo_to_check)
+    console.log('this dodo is active')
+  } else {
+    set_active(todo_to_check)
+    console.log('this dodo is completed')
+  }
+}
+
+//set active state to false - completed
+function set_completed(todo) {
+  const todo_id = JSON.parse(todo).id
+  const todo_task = JSON.parse(todo).task
+  //the modified todo
+  const completed_todo = { id: todo_id, task: todo_task, active: false }
+  //send it
+  localStorage.setItem(prefix + todo_id, JSON.stringify(completed_todo))
+
+  //select the circle to modify
+  const selected_circle = document.getElementById('circle' + todo_id)
+  selected_circle.classList.toggle('circle_completed')
+  selected_circle.innerHTML = "<img src='./images/icon-check.svg' alt='icon-check' class='check_mark'/>"
+  //select the todo text to change it
+  const selected_text = document.getElementById(todo_id)
+  selected_text.classList.toggle('todo_completed_text')
+}
+//set active state to true - active
+function set_active(todo) {
+  const todo_id = JSON.parse(todo).id
+  const todo_task = JSON.parse(todo).task
+  //the modified todo
+  const completed_todo = { id: todo_id, task: todo_task, active: true }
+  //send it
+  localStorage.setItem(prefix + todo_id, JSON.stringify(completed_todo))
+  //select the circle to modify
+  const selected_circle = document.getElementById('circle' + todo_id)
+  selected_circle.classList.toggle('circle_completed')
+  selected_circle.innerHTML = ' '
+  //select the todo text to change it
+  const selected_text = document.getElementById(todo_id)
+  selected_text.classList.toggle('todo_completed_text')
 }
 
 // function calls
-get_totos()
+get_todos()
