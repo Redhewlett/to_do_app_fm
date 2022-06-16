@@ -9,6 +9,7 @@
   --input-text-type: hsl(235, 24%, 19%);
   --text-color: white;
   --circle-border: hsl(236, 33%, 92%);
+  --active-ctrl: hsl(220, 98%, 61%);
 }
 .dark_mode {
   --body-bg: hsl(235, 21%, 11%);
@@ -43,10 +44,9 @@ body {
   width: 100vw;
   height: 100vh;
   flex-direction: column;
+  justify-content: space-around;
   align-items: center;
-  justify-content: space-between;
   padding-top: 6.5em;
-  padding-bottom: 1em;
   color: var(--text-color);
   background-color: var(--body-bg);
   background-image: var(--bg-url);
@@ -56,6 +56,7 @@ body {
 /* app */
 .app_container {
   width: 37%;
+  height: 90%;
   flex-direction: column;
   gap: 4em;
 }
@@ -73,6 +74,7 @@ body {
 
 .app {
   flex-direction: column;
+  height: 80%;
   gap: 1.7em;
 }
 
@@ -124,6 +126,21 @@ body {
 /* todo */
 #todos_list {
   width: 100%;
+  height: 100%;
+  overflow: auto;
+}
+
+#todos_list::-webkit-scrollbar {
+  width: 0.2em;
+}
+
+#todos_list::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 6px #fff;
+}
+
+#todos_list::-webkit-scrollbar-thumb {
+  background-color: darkgrey;
+  outline: 1px solid slategrey;
 }
 
 .todo_item {
@@ -135,10 +152,16 @@ body {
 }
 
 .todo_item hr {
+  border-top: 1px solid var(--completed-task);
+  border-bottom: 1px solid var(--completed-task);
   width: 100%;
   position: absolute;
   bottom: 0;
   left: 0;
+}
+
+.hidden_todo {
+  display: none;
 }
 
 .todo_item_x:hover {
@@ -163,13 +186,16 @@ body {
   justify-content: space-between;
 }
 
-.card_ctrl p:nth-of-type(1):hover,
-.card_ctrl p:nth-of-type(3):hover,
 #all:hover,
 #active:hover,
-#completed:hover {
+#completed:hover,
+#clear_completed:hover {
   color: var(--card-text-col);
   cursor: pointer;
+}
+
+.active_ctrl {
+  color: var(--active-ctrl);
 }
 
 .card_ctrl p strong {

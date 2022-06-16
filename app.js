@@ -20,8 +20,8 @@ function print_todo(task) {
   const new_todo_object = JSON.stringify({ id: randombId, task, active: true })
   if (task) {
     const new_todo_html = `<div class="todo_item">
-        <div class="circle todo-circle"></div>
-        <p id=${randombId}>${input.value}</p>
+    <div class='circle todo-circle'  id=circle${randombId}></div>
+        <p id=${randombId} class='active'>${input.value}</p>
         <img src="./images/icon-cross.svg" alt="x_mark" class="todo_item_x" />
         <hr />
         </div>
@@ -30,7 +30,8 @@ function print_todo(task) {
     save_todo(new_todo_object, randombId)
     //getting ready to be delete
     delete_todo()
-    active_todo()
+    set_todo_state()
+    count_active()
   } else {
     alert('please enter something')
   }
@@ -43,7 +44,6 @@ function save_todo(task, id) {
     localStorage.setItem(`todos${id}`, task)
   } else {
     localStorage.setItem(`todos${id}`, task)
-    const all_todos = JSON.parse(localStorage.getItem('todo'))
   }
 }
 
@@ -55,19 +55,20 @@ function get_todos() {
       display_todos(todo)
     }
   }
+  count_active()
 }
 
 //display todos once loaded from local storage
 function display_todos(tasks) {
   if (tasks.active) {
     todos.innerHTML += `<div class="todo_item">
-<div class='circle todo-circle'  id=circle${tasks.id}>  
-</div>
-<p id=${tasks.id}>${tasks.task}</p>
-<img src="./images/icon-cross.svg" alt="x_mark" class="todo_item_x" />
-<hr />
-</div>
-`
+      <div class='circle todo-circle'  id=circle${tasks.id}>  
+      </div>
+      <p id=${tasks.id} class='active'>${tasks.task}</p>
+      <img src="./images/icon-cross.svg" alt="x_mark" class="todo_item_x" />
+      <hr />
+      </div>
+      `
   } else {
     todos.innerHTML += `<div class="todo_item">
       <div class= 'circle circle_completed todo-circle' id=circle${tasks.id}>
@@ -79,8 +80,7 @@ function display_todos(tasks) {
       </div>
       `
   }
-  // todos.innerHTML +=
-  active_todo()
+  set_todo_state()
   delete_todo()
 }
 
@@ -92,11 +92,17 @@ function delete_todo() {
     button.addEventListener('click', (e) => {
       const todo_html = button.closest('div')
       const id_todo = button.previousElementSibling.getAttribute('id')
-      const item_to_delete = prefix + id_todo
-      localStorage.removeItem(item_to_delete)
+      delete_from_storage(id_todo)
       delete_todo_html(todo_html)
+      count_active()
     })
   })
+}
+
+//delete from storage
+function delete_from_storage(id) {
+  const item_to_delete = prefix + id
+  localStorage.removeItem(item_to_delete)
 }
 
 //remove from html
@@ -105,7 +111,7 @@ function delete_todo_html(todo_html) {
 }
 
 //toogle active todo
-function active_todo() {
+function set_todo_state() {
   const check_circles = document.querySelectorAll('.todo-circle')
 
   check_circles.forEach((check_circle) => {
@@ -130,10 +136,8 @@ function is_active(todo_to_check) {
   const todo_state = JSON.parse(todo_to_check).active
   if (todo_state === true) {
     set_completed(todo_to_check)
-    console.log('this dodo is active')
   } else {
     set_active(todo_to_check)
-    console.log('this dodo is completed')
   }
 }
 
@@ -153,6 +157,8 @@ function set_completed(todo) {
   //select the todo text to change it
   const selected_text = document.getElementById(todo_id)
   selected_text.classList.toggle('todo_completed_text')
+  //this is used by the filter to find the active todos
+  selected_text.classList.remove('active')
 }
 //set active state to true - active
 function set_active(todo) {
@@ -169,7 +175,112 @@ function set_active(todo) {
   //select the todo text to change it
   const selected_text = document.getElementById(todo_id)
   selected_text.classList.toggle('todo_completed_text')
+  //this is used by the filter to find the active todos
+  selected_text.classList.add('active')
 }
 
-// function calls
+//todo filter
+//select the filters
+const all_btn = document.getElementById('all')
+const active_btn = document.getElementById('active')
+const completed_btn = document.getElementById('completed')
+
+//reveal todos (since it's going to be used by all fo them)
+function reveal_todos() {
+  const hidden_todos = document.querySelectorAll('.hidden_todo')
+  hidden_todos.forEach((todo) => {
+    todo.classList.remove('hidden_todo')
+  })
+}
+
+//displays all the todos
+all_btn.addEventListener('click', (e) => {
+  //reveal todos
+  reveal_todos()
+  //change color
+  all_btn.classList.add('active_ctrl')
+  //check if the other filters where active, if so take it off + something else?
+  if (active_btn.classList == 'active_ctrl') {
+    active_btn.classList.remove('active_ctrl')
+  }
+  if (completed_btn.classList == 'active_ctrl') {
+    completed_btn.classList.remove('active_ctrl')
+  }
+})
+
+//displays active the todos
+active_btn.addEventListener('click', (e) => {
+  //reveal todos(for a brief moment)
+  reveal_todos()
+  //simply select the todos that are completed and hide them
+  const completed_todos = document.querySelectorAll('.todo_completed_text')
+  completed_todos.forEach((todo) => {
+    const selected = document.getElementById(`${todo.id}`)
+    const container_to_hide = selected.parentElement
+    container_to_hide.classList.add('hidden_todo')
+  })
+  //change color
+  active_btn.classList.add('active_ctrl')
+  //check if the other filters where active, if so take it off + something else?
+  if (all_btn.classList == 'active_ctrl') {
+    all_btn.classList.remove('active_ctrl')
+  }
+  if (completed_btn.classList == 'active_ctrl') {
+    completed_btn.classList.remove('active_ctrl')
+  }
+})
+
+//displays completed the todos
+completed_btn.addEventListener('click', (e) => {
+  //reveal todos(for a brief moment)
+  reveal_todos()
+  //simply select the todos that are active and hide them
+  const active_todos = document.querySelectorAll('.active')
+  active_todos.forEach((todo) => {
+    const selected = document.getElementById(`${todo.id}`)
+    const container_to_hide = selected.parentElement
+    container_to_hide.classList.add('hidden_todo')
+  })
+  //change color
+  completed_btn.classList.add('active_ctrl')
+  //check if the other filters where active, if so take it off + something else?
+  if (all_btn.classList == 'active_ctrl') {
+    all_btn.classList.remove('active_ctrl')
+  }
+  if (active_btn.classList == 'active_ctrl') {
+    active_btn.classList.remove('active_ctrl')
+  }
+})
+//master delete button aka clear completed
+const clear_completed_btn = document.getElementById('clear_completed')
+
+clear_completed_btn.addEventListener('click', (e) => {
+  //select completed todos
+  const completed_todos = document.querySelectorAll('.todo_completed_text')
+  //delete them
+  completed_todos.forEach((todo) => {
+    const todo_html = todo.closest('div')
+    //re-using our functions
+    delete_from_storage(todo.id)
+    delete_todo_html(todo_html)
+  })
+})
+
+//count and display active item left
+function count_active() {
+  const actives_number = document.querySelectorAll('.active').length
+  display_item_left(actives_number)
+}
+
+const item_left = document.getElementById('card_item_left')
+function display_item_left(nrb_of_items) {
+  if (nrb_of_items > 1) {
+    //plurals(this can hold in a single line with a ternary but let's chill an write for humans)
+    item_left.innerHTML = `<p>${nrb_of_items} items left</p>`
+  } else {
+    //single
+    item_left.innerHTML = `<p>${nrb_of_items} item left</p>`
+  }
+}
+
 get_todos()
