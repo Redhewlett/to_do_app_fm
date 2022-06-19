@@ -1,0 +1,20 @@
+body {
+  height: 100vh;
+  padding-top: 1.5em;
+  background-image: none;
+}
+
+body::after {
+  content: ' ';
+  background-color: aquamarine;
+  width: 100vw;
+  height: 30vh;
+  position: absolute;
+  top: 0;
+  background-color: var(--body-bg);
+  background-image: var(--bg-url);
+  background-repeat: no-repeat;
+  background-size: 100% 80%;
+  background-position: center top;
+  z-index: -1;
+}

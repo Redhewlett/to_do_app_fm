@@ -4,12 +4,16 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!-- displays site properly based on user's device -->
+    <meta name="description" content="Simple HTML Todo APP using local storage." />
+    <meta name="keywords" content="todo, todo app, frontendmentor, responsive, Redhewlett" />
+    <meta name="robots" content="max-snippet:140" />
     <link rel="icon" type="image/png" sizes="32x32" href="./images/favicon-32x32.png" />
     <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" media="screen and (min-width: 375px) and (max-width: 700px)" href="mobile.css" />
     <title>Frontend Mentor | Todo app</title>
   </head>
   <body>
-    <div class="app_container">
+    <section class="app_container">
       <div class="app_header">
         <h1>Todo</h1>
         <div class="theme_toogler">
@@ -26,15 +30,9 @@
           </form>
         </div>
         <div id="todos_card" class="card">
-          <div id="todos_list">
+          <div role="todo_list_container" id="todos_list">
             <!-- to do item go here -->
-            <!-- here is a dummy for test -->
-            <!-- <div class="todo_item">
-              <div class="circle todo-circle"></div>
-                <p>Dummy todo</p>
-                <img src="./images/icon-cross.svg" alt="x_mark" class="todo_item_x" />
-              </div>
-              <hr /> -->
+
             <!-- to do item go here -->
           </div>
           <div class="card_ctrl">
@@ -44,7 +42,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </section>
 
     <footer>
       <p>

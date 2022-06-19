@@ -141,7 +141,7 @@ function is_active(todo_to_check) {
   }
 }
 
-//set active state to false - completed
+//---------------------set active state to false - completed----------------
 function set_completed(todo) {
   const todo_id = JSON.parse(todo).id
   const todo_task = JSON.parse(todo).task
@@ -159,8 +159,9 @@ function set_completed(todo) {
   selected_text.classList.toggle('todo_completed_text')
   //this is used by the filter to find the active todos
   selected_text.classList.remove('active')
+  count_active()
 }
-//set active state to true - active
+//-----------------------set active state to true - active -------------------
 function set_active(todo) {
   const todo_id = JSON.parse(todo).id
   const todo_task = JSON.parse(todo).task
@@ -177,15 +178,16 @@ function set_active(todo) {
   selected_text.classList.toggle('todo_completed_text')
   //this is used by the filter to find the active todos
   selected_text.classList.add('active')
+  count_active()
 }
 
-//todo filter
-//select the filters
+//========================todo filter===============================
+//----select the filters-----
 const all_btn = document.getElementById('all')
 const active_btn = document.getElementById('active')
 const completed_btn = document.getElementById('completed')
 
-//reveal todos (since it's going to be used by all fo them)
+//reveal todos (since it's going to be used by all fo them) "reset"
 function reveal_todos() {
   const hidden_todos = document.querySelectorAll('.hidden_todo')
   hidden_todos.forEach((todo) => {
@@ -193,7 +195,7 @@ function reveal_todos() {
   })
 }
 
-//displays all the todos
+//--------------displays all the todos--------------------
 all_btn.addEventListener('click', (e) => {
   //reveal todos
   reveal_todos()
@@ -208,7 +210,7 @@ all_btn.addEventListener('click', (e) => {
   }
 })
 
-//displays active the todos
+//-----------------displays active the todos------------------
 active_btn.addEventListener('click', (e) => {
   //reveal todos(for a brief moment)
   reveal_todos()
@@ -230,7 +232,7 @@ active_btn.addEventListener('click', (e) => {
   }
 })
 
-//displays completed the todos
+//------------------displays completed the todos----------------------
 completed_btn.addEventListener('click', (e) => {
   //reveal todos(for a brief moment)
   reveal_todos()
@@ -251,7 +253,8 @@ completed_btn.addEventListener('click', (e) => {
     active_btn.classList.remove('active_ctrl')
   }
 })
-//master delete button aka clear completed
+
+//------------------------master delete button aka clear completed--------------------
 const clear_completed_btn = document.getElementById('clear_completed')
 
 clear_completed_btn.addEventListener('click', (e) => {
@@ -266,7 +269,7 @@ clear_completed_btn.addEventListener('click', (e) => {
   })
 })
 
-//count and display active item left
+//----------------------------count and display active item left--------------------------
 function count_active() {
   const actives_number = document.querySelectorAll('.active').length
   display_item_left(actives_number)
