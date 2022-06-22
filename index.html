@@ -37,9 +37,14 @@
           </div>
           <div class="card_ctrl">
             <div id="card_item_left"></div>
-            <p><strong id="all">All</strong> <strong id="active">Active</strong> <strong id="completed">Completed</strong></p>
+            <p class="card_ctrl_filters"><strong id="all">All</strong> <strong id="active">Active</strong> <strong id="completed">Completed</strong></p>
             <p id="clear_completed">Clear Completed</p>
           </div>
+        </div>
+        <div class="card mobile_card_ctrl">
+          <p class="card_ctrl_filters">
+            <strong id="all_mobile">All</strong> <strong id="active_mobile">Active</strong> <strong id="completed_mobile">Completed</strong>
+          </p>
         </div>
       </div>
     </section>
@@ -52,5 +57,6 @@
     </footer>
   </body>
   <script src="app.js" defer></script>
+  <script src="filter.js" defer></script>
   <script src="theme.js" defer></script>
 </html>

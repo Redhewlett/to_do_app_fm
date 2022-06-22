@@ -2,19 +2,66 @@ body {
   height: 100vh;
   padding-top: 1.5em;
   background-image: none;
+  background-image: var(--bg-mobile-url);
+  background-repeat: no-repeat;
+  background-size: contain;
+  justify-content: center;
 }
 
-body::after {
-  content: ' ';
-  background-color: aquamarine;
-  width: 100vw;
-  height: 30vh;
-  position: absolute;
-  top: 0;
-  background-color: var(--body-bg);
-  background-image: var(--bg-url);
-  background-repeat: no-repeat;
-  background-size: 100% 80%;
-  background-position: center top;
-  z-index: -1;
+.app_container {
+  width: 80vw;
+  gap: 2em;
+}
+
+.app_header {
+  align-items: center;
+}
+
+.app_container h1 {
+  font-size: 7vw;
+}
+
+.app_header img {
+  width: 8vw;
+}
+
+.card input {
+  font-size: 4vw;
+}
+
+.todo_item p {
+  font-size: 4vw;
+}
+
+.card_ctrl_filters {
+  display: none;
+}
+
+.mobile_card_ctrl {
+  display: block;
+}
+
+.card:nth-of-type(3) {
+  box-shadow: 0px 0px 12px -6px var(--shadow);
+}
+
+.mobile_card_ctrl p {
+  display: flex;
+  justify-content: center;
+  color: hsl(234, 11%, 52%);
+  gap: 5vw;
+}
+
+.circle {
+  width: 5vw;
+  height: 5vw;
+}
+.circle_completed {
+  width: 5vw;
+  height: 5vw;
+  background: linear-gradient(133deg, rgba(87, 221, 255, 1) 30%, rgba(191, 89, 242, 1) 100%);
+}
+
+.check_mark {
+  width: 3vw;
 }
